@@ -1,4 +1,4 @@
-
+cd 
 
 if( !(Test-Path ".\main.py") ){
     New-Item -Path ".\main.py"
