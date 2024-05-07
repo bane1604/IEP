@@ -1,0 +1,28 @@
+version: "3"
+services:
+
+  redis:
+    image: redis
+    healthcheck:
+      test: [ "CMD-SHELL", "redis-cli", "PING" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - 6379:6379
+
+  producer:
+    image: p_c_redis
+    environment:
+      - "TYPE=PRODUCER"
+    depends_on:
+      redis:
+        condition: service_healthy
+  consumer:
+    image: p_c_redis
+    environment:
+      - "TYPE=CONSUMER"
+    depends_on:
+      redis:
+        condition: service_healthy
+  
